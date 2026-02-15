@@ -42,6 +42,10 @@ function matchCategory(news, category) {
   if (category === 'sports') return /deporte|fútbol|futbol|baloncesto|tenis|liga|partido|juego/.test(text);
   if (category === 'politics') return /política|gobierno|elección|presidente|ministro|congreso|senado/.test(text);
   if (category === 'arts') return /arte|cultura|música|pintura|teatro|cine|literatura|exposición/.test(text);
+  if (category === 'health') return /salud|hospital|médico|medico|enfermedad|vacuna|virus|covid|bienestar/.test(text);
+  if (category === 'business') return /economía|negocio|empresa|finanzas|mercado|bolsa|dinero|banco|comercio/.test(text);
+  if (category === 'science') return /ciencia|investigación|descubrimiento|experimento|científico|cientifica|universo|astronomía/.test(text);
+  if (category === 'technology') return /tecnología|tecnologia|software|hardware|internet|app|aplicación|robot|inteligencia artificial|ia|smartphone|dispositivo/.test(text);
   return false;
 }
 
@@ -75,7 +79,7 @@ function renderFeaturedCarousel() {
     <h2>${item.titulo}</h2>
     <div class="source">${item.fuente} <span class="star">★ Destacada</span>${item.esAnuncio ? ' <span class="ad-label">Anuncio</span>' : ''}</div>
     <div class="meta-info">
-      ${item.categoria ? `<span class="tag">${item.categoria}</span>` : ''}
+      ${item.categoria ? `<span class="tag" data-category="${item.categoria}">${item.categoria}</span>` : ''}
       ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
     </div>
     <p>${item.descripcion || ''}</p>
@@ -99,7 +103,7 @@ function renderOtherNews() {
       <h3>${item.titulo}</h3>
       <div class="source">${item.fuente}</div>
       <div class="meta-info">
-        ${item.categoria ? `<span class="tag">${item.categoria}</span>` : ''}
+        ${item.categoria ? `<span class="tag" data-category="${item.categoria}">${item.categoria}</span>` : ''}
         ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
       </div>
       <a href="${item.enlace}" target="_blank">Leer más</a>

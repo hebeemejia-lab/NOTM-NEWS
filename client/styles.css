@@ -1,3 +1,10 @@
+.tag[data-category="sports"] { background: #e3f2fd; color: #1976d2; }
+.tag[data-category="politics"] { background: #ffebee; color: #c62828; }
+.tag[data-category="arts"] { background: #f3e5f5; color: #6a1b9a; }
+.tag[data-category="health"] { background: #e8f5e9; color: #2e7d32; }
+.tag[data-category="business"] { background: #fffde7; color: #f9a825; }
+.tag[data-category="science"] { background: #e1f5fe; color: #0288d1; }
+.tag[data-category="technology"] { background: #ede7f6; color: #512da8; }
 /* Etiquetas y fecha/hora en tarjetas */
 .meta-info {
   display: flex;
