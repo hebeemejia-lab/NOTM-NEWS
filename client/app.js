@@ -44,6 +44,7 @@ function matchCategory(news, category) {
   if (category === 'arts') return /arte|cultura|música|pintura|teatro|cine|literatura|exposición/.test(text);
   if (category === 'health') return /salud|hospital|médico|medico|enfermedad|vacuna|virus|covid|bienestar/.test(text);
   if (category === 'business') return /economía|negocio|empresa|finanzas|mercado|bolsa|dinero|banco|comercio/.test(text);
+  if (category === 'finance') return /finanza|finanzas|banco|dinero|bolsa|mercado|crédito|tarjeta|ahorro|inversión|deuda/.test(text);
   if (category === 'science') return /ciencia|investigación|descubrimiento|experimento|científico|cientifica|universo|astronomía/.test(text);
   if (category === 'technology') return /tecnología|tecnologia|software|hardware|internet|app|aplicación|robot|inteligencia artificial|ia|smartphone|dispositivo/.test(text);
   return false;
