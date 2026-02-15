@@ -5,10 +5,12 @@ const express = require('express');
 const cors = require('cors');
 const newsService = require('./newsService');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3010;
 
 // Habilitar CORS para todas las rutas
-app.use(cors());
+app.use(cors({
+  origin: 'https://notm-news-1.onrender.com'
+}));
 
 // Ruta para obtener noticias
 app.get('/news', async (req, res) => {
