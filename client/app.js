@@ -15,6 +15,11 @@ async function fetchNews(category = 'general') {
     }
     const res = await fetch(url);
     const news = await res.json();
+    if (!Array.isArray(news)) {
+      document.getElementById('news-list').innerHTML = '<p>Error al cargar noticias (respuesta inesperada).</p>';
+      console.error('Respuesta inesperada de noticias:', news);
+      return;
+    }
     allNews = news;
     applyCategoryFilter(category);
     renderFeaturedCarousel();
