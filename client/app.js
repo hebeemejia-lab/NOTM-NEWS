@@ -1,15 +1,22 @@
 // NOTM NEWS - Frontend simple
 
+
 let featuredIndex = 0;
 let featuredNews = [];
 let otherNews = [];
+let allNews = [];
+let currentCategory = 'general';
 
-async function fetchNews() {
+async function fetchNews(category = 'general') {
   try {
-    const res = await fetch('https://notm-news.onrender.com/news');
+    let url = 'https://notm-news.onrender.com/news';
+    if (category && category !== 'general') {
+      url += `?category=${category}`;
+    }
+    const res = await fetch(url);
     const news = await res.json();
-    featuredNews = news.filter(n => n.destacada);
-    otherNews = news.filter(n => !n.destacada);
+    allNews = news;
+    applyCategoryFilter(category);
     renderFeaturedCarousel();
     renderOtherNews();
     setupCarouselControls();
@@ -17,6 +24,38 @@ async function fetchNews() {
     document.getElementById('news-list').innerHTML = '<p>Error al cargar noticias.</p>';
     console.error('Error al cargar noticias:', err);
   }
+}
+
+function applyCategoryFilter(category) {
+  if (!allNews.length || category === 'general') {
+    featuredNews = allNews.filter(n => n.destacada);
+    otherNews = allNews.filter(n => !n.destacada);
+    return;
+  }
+  featuredNews = allNews.filter(n => n.destacada && matchCategory(n, category));
+  otherNews = allNews.filter(n => !n.destacada && matchCategory(n, category));
+}
+
+function matchCategory(news, category) {
+  if (!news.descripcion && !news.titulo) return false;
+  const text = `${news.titulo || ''} ${news.descripcion || ''}`.toLowerCase();
+  if (category === 'sports') return /deporte|fútbol|futbol|baloncesto|tenis|liga|partido|juego/.test(text);
+  if (category === 'politics') return /política|gobierno|elección|presidente|ministro|congreso|senado/.test(text);
+  if (category === 'arts') return /arte|cultura|música|pintura|teatro|cine|literatura|exposición/.test(text);
+  return false;
+}
+
+function setupCategoryMenu() {
+  document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCategory = btn.dataset.category;
+      applyCategoryFilter(currentCategory);
+      renderFeaturedCarousel();
+      renderOtherNews();
+    };
+  });
 }
 
 function renderFeaturedCarousel() {
@@ -35,6 +74,10 @@ function renderFeaturedCarousel() {
     ${imagen ? `<img src="${imagen}" alt="Portada" class="cover big">` : ''}
     <h2>${item.titulo}</h2>
     <div class="source">${item.fuente} <span class="star">★ Destacada</span>${item.esAnuncio ? ' <span class="ad-label">Anuncio</span>' : ''}</div>
+    <div class="meta-info">
+      ${item.categoria ? `<span class="tag">${item.categoria}</span>` : ''}
+      ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
+    </div>
     <p>${item.descripcion || ''}</p>
     <a href="${item.enlace}" target="_blank">${item.esAnuncio ? 'Ver producto' : 'Leer más'}</a>
   `;
@@ -55,8 +98,18 @@ function renderOtherNews() {
       ${imagen ? `<img src="${imagen}" alt="Portada" class="cover small">` : ''}
       <h3>${item.titulo}</h3>
       <div class="source">${item.fuente}</div>
+      <div class="meta-info">
+        ${item.categoria ? `<span class="tag">${item.categoria}</span>` : ''}
+        ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
+      </div>
       <a href="${item.enlace}" target="_blank">Leer más</a>
     `;
+    // Formatear fecha/hora
+    function formatDate(fecha) {
+      if (!fecha) return '';
+      const d = new Date(fecha);
+      return d.toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+    }
     list.appendChild(card);
   });
 }
@@ -73,3 +126,4 @@ function setupCarouselControls() {
 }
 
 fetchNews();
+setupCategoryMenu();

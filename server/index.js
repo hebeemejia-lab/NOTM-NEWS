@@ -13,7 +13,9 @@ app.use(cors());
 // Ruta para obtener noticias
 app.get('/news', async (req, res) => {
   try {
-    const news = await newsService.getNews();
+    const category = req.query.category || 'general';
+    const max = parseInt(req.query.max, 10) || 100;
+    const news = await newsService.getNews({ category, max });
     res.json(news);
   } catch (error) {
     res.status(500).json({ error: 'Error al obtener noticias.' });
