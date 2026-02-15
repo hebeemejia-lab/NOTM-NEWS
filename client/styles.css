@@ -1,3 +1,33 @@
+/* Ocultar anuncios laterales en móvil, mostrar solo el inferior */
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+@media (max-width: 900px) {
+  .desktop-only { display: none !important; }
+  .mobile-only { display: flex !important; justify-content: center; margin: 1.5rem 0 0 0; }
+}
+
+/* Centrar y uniformar tarjetas en móvil */
+@media (max-width: 900px) {
+  #news-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .card, .card.small, .card.featured.big-featured {
+    max-width: 95vw;
+    min-width: 260px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  .card .cover, .card .cover.small, .card .cover.big {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    margin: 0 auto 0.7rem auto;
+    display: block;
+  }
+}
 .ads ins.adsbygoogle {
   display: block !important;
   width: 100% !important;

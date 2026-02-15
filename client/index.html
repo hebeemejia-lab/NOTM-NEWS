@@ -4,25 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NOTM NEWS</title>
+</head>
   <link rel="stylesheet" href="styles.css">
+  <!-- Google AdSense script global -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1355161197938361" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <h1>NOTM NEWS</h1>
   </header>
   <div class="layout">
-    <aside class="ads ads-left">
-      <!-- Google AdSense: Bloque izquierdo -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="1111111111"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-      </script>
-    </aside>
     <main>
       <section id="featured-carousel-container">
         <button id="prev-featured" class="carousel-arrow">&#8592;</button>
@@ -31,21 +22,32 @@
       </section>
       <section id="news-list"></section>
     </main>
-    <aside class="ads ads-right">
-      <!-- Google AdSense: Bloque derecho -->
+    <aside class="ads ads-right desktop-only">
+      <!-- Google AdSense: Bloque derecho (solo escritorio) -->
       <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-           data-ad-slot="2222222222"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
+        style="display:block"
+        data-ad-client="ca-pub-1355161197938361"
+        data-ad-slot="2222222222"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
       </script>
     </aside>
   </div>
-  <!-- Google AdSense script global -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <div class="ads ads-bottom mobile-only">
+    <!-- Google AdSense: Bloque inferior (solo móvil) -->
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-1355161197938361"
+      data-ad-slot="3333333333"
+      data-ad-format="auto"
+      data-full-width-responsive="true"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+  <!-- Google AdSense script global (ya cargado en el head) -->
   <script src="app.js"></script>
 </body>
 </html>
