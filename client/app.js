@@ -1,7 +1,7 @@
 // NOTM NEWS - Frontend simple
 async function fetchNews() {
   try {
-    const res = await fetch('http://localhost:3001/news');
+    const res = await fetch('https://notm-news.onrender.com/news');
     const news = await res.json();
     renderNews(news);
   } catch (err) {
