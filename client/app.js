@@ -26,8 +26,13 @@ function renderFeaturedCarousel() {
   const item = featuredNews[featuredIndex % featuredNews.length];
   const card = document.createElement('div');
   card.className = 'card featured big-featured' + (item.esAnuncio ? ' anuncio' : '');
+  // Forzar HTTPS en la imagen
+  let imagen = item.imagen;
+  if (imagen && imagen.startsWith('http://')) {
+    imagen = 'https://' + imagen.slice(7);
+  }
   card.innerHTML = `
-    ${item.imagen ? `<img src="${item.imagen}" alt="Portada" class="cover big">` : ''}
+    ${imagen ? `<img src="${imagen}" alt="Portada" class="cover big">` : ''}
     <h2>${item.titulo}</h2>
     <div class="source">${item.fuente} <span class="star">★ Destacada</span>${item.esAnuncio ? ' <span class="ad-label">Anuncio</span>' : ''}</div>
     <p>${item.descripcion || ''}</p>
@@ -40,10 +45,14 @@ function renderOtherNews() {
   const list = document.getElementById('news-list');
   list.innerHTML = '';
   otherNews.forEach(item => {
+    let imagen = item.imagen;
+    if (imagen && imagen.startsWith('http://')) {
+      imagen = 'https://' + imagen.slice(7);
+    }
     const card = document.createElement('div');
     card.className = 'card small';
     card.innerHTML = `
-      ${item.imagen ? `<img src="${item.imagen}" alt="Portada" class="cover small">` : ''}
+      ${imagen ? `<img src="${imagen}" alt="Portada" class="cover small">` : ''}
       <h3>${item.titulo}</h3>
       <div class="source">${item.fuente}</div>
       <a href="${item.enlace}" target="_blank">Leer más</a>
