@@ -1,3 +1,51 @@
+const MEDIASTACK_KEY = process.env.MEDIASTACK_KEY || '76e80fd158ce0a6b77994c39bc278431';
+
+async function fetchMediastack({category = 'general', max = 20}) {
+  let url = `http://api.mediastack.com/v1/news?access_key=${MEDIASTACK_KEY}&languages=es&limit=${max}`;
+  if (category && category !== 'general') {
+    url += `&categories=${category}`;
+  }
+  try {
+    const response = await axios.get(url);
+    return (response.data.data || []).map((article, idx) => ({
+      titulo: article.title,
+      descripcion: article.description,
+      fuente: article.source,
+      enlace: article.url,
+      imagen: article.image || null,
+      categoria: category,
+      fecha: article.published_at || '',
+      destacada: false
+    }));
+  } catch (error) {
+    console.error('[MEDIASTACK ERROR]', error.response ? error.response.data : error);
+    return [];
+  }
+}
+const NEWSAPI_KEY = process.env.NEWSAPI_KEY || '3f9d0be220b146f4a7da95a0b807ec4f';
+
+async function fetchNewsAPI({category = 'general', max = 20}) {
+  let url = `https://newsapi.org/v2/top-headlines?language=es&pageSize=${max}&apiKey=${NEWSAPI_KEY}`;
+  if (category && category !== 'general') {
+    url += `&category=${category}`;
+  }
+  try {
+    const response = await axios.get(url);
+    return (response.data.articles || []).map((article, idx) => ({
+      titulo: article.title,
+      descripcion: article.description,
+      fuente: article.source.name,
+      enlace: article.url,
+      imagen: article.urlToImage || null,
+      categoria: category,
+      fecha: article.publishedAt || '',
+      destacada: false
+    }));
+  } catch (error) {
+    console.error('[NEWSAPI ERROR]', error.response ? error.response.data : error);
+    return [];
+  }
+}
 // Servicio para consultar la API de GNews
 const axios = require('axios');
 
@@ -13,6 +61,7 @@ function buildGNewsUrl({category, page = 1, max = 100}) {
 
 async function getNews({category = 'general', max = 100} = {}) {
   try {
+    // GNews
     let allArticles = [];
     let page = 1;
     let keepFetching = true;
@@ -28,8 +77,7 @@ async function getNews({category = 'general', max = 100} = {}) {
         page++;
       }
     }
-    // Simulación: destacar las 3 primeras como más leídas/interesantes
-    const noticias = allArticles.map((article, idx) => ({
+    const gnewsNoticias = allArticles.map((article, idx) => ({
       titulo: article.title,
       descripcion: article.description,
       fuente: article.source.name,
@@ -39,6 +87,12 @@ async function getNews({category = 'general', max = 100} = {}) {
       fecha: article.publishedAt || '',
       destacada: idx < 3 // Las 3 primeras destacadas
     }));
+    // NewsAPI
+    const newsapiNoticias = await fetchNewsAPI({category, max: Math.min(20, max)});
+    // Mediastack
+    const mediastackNoticias = await fetchMediastack({category, max: Math.min(20, max)});
+    // Combinar y limitar
+    let noticias = [...gnewsNoticias, ...newsapiNoticias, ...mediastackNoticias];
     // Producto popular simulado como noticia-anuncio
     noticias.splice(1, 0, {
       titulo: '¡Producto Popular! Oferta especial',
@@ -49,14 +103,17 @@ async function getNews({category = 'general', max = 100} = {}) {
       destacada: true,
       esAnuncio: true
     });
-    return noticias;
+    return noticias.slice(0, max);
   } catch (error) {
     console.error('[GNEWS ERROR]', error.response ? error.response.data : error);
+    // Fallback: solo NewsAPI
+    const newsapiNoticias = await fetchNewsAPI({category, max: Math.min(20, max)});
+    if (newsapiNoticias.length > 0) return newsapiNoticias;
     // Fallback: noticias simuladas
     return [
       {
         titulo: 'Noticias simuladas por límite de API',
-        descripcion: 'La API de GNews ha alcanzado su límite. Estas son noticias de ejemplo.',
+        descripcion: 'Las APIs han alcanzado su límite. Estas son noticias de ejemplo.',
         fuente: 'Simulado',
         enlace: 'https://notm-news.onrender.com',
         imagen: 'https://via.placeholder.com/600x300?text=Simulado',
@@ -68,7 +125,7 @@ async function getNews({category = 'general', max = 100} = {}) {
         titulo: '¿Cómo obtener más noticias?',
         descripcion: 'Puedes actualizar la página más tarde o usar una API premium.',
         fuente: 'Simulado',
-        enlace: 'https://gnews.io',
+        enlace: 'https://newsapi.org',
         imagen: 'https://via.placeholder.com/600x300?text=API+Limit',
         categoria: 'tecnología',
         fecha: new Date().toISOString(),

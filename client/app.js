@@ -83,7 +83,7 @@ function renderFeaturedCarousel() {
   card.innerHTML = `
     ${imagen ? `<img src="${imagen}" alt="Portada" class="cover big">` : ''}
     <h2>${item.titulo}</h2>
-    <div class="source">${item.fuente} <span class="star">★ Destacada</span>${item.esAnuncio ? ' <span class="ad-label">Anuncio</span>' : ''}</div>
+    <div class="source">Fuente: <strong>${item.fuente}</strong> <span class="star">★ Destacada</span>${item.esAnuncio ? ' <span class="ad-label">Anuncio</span>' : ''}</div>
     <div class="meta-info">
       ${item.categoria ? `<span class="tag" data-category="${item.categoria}">${item.categoria}</span>` : ''}
       ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
@@ -107,7 +107,7 @@ function renderOtherNews() {
     card.innerHTML = `
       ${imagen ? `<img src="${imagen}" alt="Portada" class="cover small">` : ''}
       <h3>${item.titulo}</h3>
-      <div class="source">${item.fuente}</div>
+      <div class="source">Fuente: <strong>${item.fuente}</strong></div>
       <div class="meta-info">
         ${item.categoria ? `<span class="tag" data-category="${item.categoria}">${item.categoria}</span>` : ''}
         ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
