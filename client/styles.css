@@ -1,3 +1,20 @@
+/* Asegurar ancho completo para anuncios en móvil */
+.ads-bottom {
+  width: 100vw;
+  min-width: 320px;
+  max-width: 100vw;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0 0 0;
+}
+.ads-bottom .adsbygoogle {
+  display: block !important;
+  width: 100% !important;
+  min-width: 200px;
+  min-height: 100px;
+  margin: 0 auto;
+}
 /* Ocultar anuncios laterales en móvil, mostrar solo el inferior */
 .desktop-only { display: block; }
 .mobile-only { display: none; }
