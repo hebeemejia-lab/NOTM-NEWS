@@ -1,3 +1,4 @@
+module.exports = { getNews };
 // Servicio para consultar la API de GNews
 const axios = require('axios');
 
