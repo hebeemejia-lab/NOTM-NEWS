@@ -12,17 +12,40 @@
   </header>
   <div class="layout">
     <aside class="ads ads-left">
-      <div class="ad-box">Anuncio</div>
-      <div class="ad-box">Publicidad</div>
+      <!-- Google AdSense: Bloque izquierdo -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="1111111111"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </aside>
     <main>
+      <section id="featured-carousel-container">
+        <button id="prev-featured" class="carousel-arrow">&#8592;</button>
+        <div id="featured-carousel"></div>
+        <button id="next-featured" class="carousel-arrow">&#8594;</button>
+      </section>
       <section id="news-list"></section>
     </main>
     <aside class="ads ads-right">
-      <div class="ad-box">Anuncio</div>
-      <div class="ad-box">Publicidad</div>
+      <!-- Google AdSense: Bloque derecho -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+           data-ad-slot="2222222222"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
     </aside>
   </div>
+  <!-- Google AdSense script global -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
