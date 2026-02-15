@@ -52,7 +52,29 @@ async function getNews({category = 'general', max = 100} = {}) {
     return noticias;
   } catch (error) {
     console.error('[GNEWS ERROR]', error.response ? error.response.data : error);
-    throw new Error('No se pudo obtener noticias de GNews');
+    // Fallback: noticias simuladas
+    return [
+      {
+        titulo: 'Noticias simuladas por límite de API',
+        descripcion: 'La API de GNews ha alcanzado su límite. Estas son noticias de ejemplo.',
+        fuente: 'Simulado',
+        enlace: 'https://notm-news.onrender.com',
+        imagen: 'https://via.placeholder.com/600x300?text=Simulado',
+        categoria: 'general',
+        fecha: new Date().toISOString(),
+        destacada: true
+      },
+      {
+        titulo: '¿Cómo obtener más noticias?',
+        descripcion: 'Puedes actualizar la página más tarde o usar una API premium.',
+        fuente: 'Simulado',
+        enlace: 'https://gnews.io',
+        imagen: 'https://via.placeholder.com/600x300?text=API+Limit',
+        categoria: 'tecnología',
+        fecha: new Date().toISOString(),
+        destacada: false
+      }
+    ];
   }
 }
 
