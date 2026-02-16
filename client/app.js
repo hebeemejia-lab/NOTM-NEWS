@@ -103,7 +103,7 @@ function renderFeaturedCarousel() {
       ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
     </div>
     <p>${item.descripcion || ''}</p>
-    <a href="${item.enlace}" target="_blank">${item.esAnuncio ? 'Ver producto' : 'Leer más'}</a>
+    <a href="${item.esAnuncio ? item.enlace : `news.html?id=${encodeURIComponent(item.titulo)}` }" target="${item.esAnuncio ? '_blank' : '_self'}">${item.esAnuncio ? 'Ver producto' : 'Leer más'}</a>
   `;
   container.appendChild(card);
 }
@@ -126,7 +126,7 @@ function renderOtherNews() {
         ${item.categoria ? `<span class="tag" data-category="${item.categoria}">${item.categoria}</span>` : ''}
         ${item.fecha ? `<span class="dh">${formatDate(item.fecha)}</span>` : ''}
       </div>
-      <a href="${item.enlace}" target="_blank">Leer más</a>
+      <a href="${item.esAnuncio ? item.enlace : `news.html?id=${encodeURIComponent(item.titulo)}` }" target="${item.esAnuncio ? '_blank' : '_self'}">${item.esAnuncio ? 'Ver producto' : 'Leer más'}</a>
     `;
     list.appendChild(card);
   });
