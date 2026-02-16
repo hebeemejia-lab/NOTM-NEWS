@@ -7,9 +7,15 @@ let otherNews = [];
 let allNews = [];
 let currentCategory = 'general';
 
+
+// Cambia esta variable según el entorno:
+// Para local: 'http://localhost:3001'
+// Para producción: 'https://notm-news.onrender.com'
+const BASE_API_URL = 'https://notm-news.onrender.com';
+
 async function fetchNews(category = 'general') {
   try {
-    let url = 'https://notm-news.onrender.com/news';
+    let url = BASE_API_URL + '/news';
     if (category && category !== 'general') {
       url += `?category=${category}`;
     }
