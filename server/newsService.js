@@ -61,38 +61,32 @@ function buildGNewsUrl({category, page = 1, max = 100}) {
 
 async function getNews({category = 'general', max = 100} = {}) {
   try {
-    // GNews
-    let allArticles = [];
-    let page = 1;
-    let keepFetching = true;
-    while (keepFetching && allArticles.length < max) {
-      const url = buildGNewsUrl({category, page, max: Math.min(100, max - allArticles.length)});
+    // GNews (solo una página, max 20)
+    let gnewsNoticias = [];
+    try {
+      const url = buildGNewsUrl({category, page: 1, max: Math.min(20, max)});
       console.log(`[GNEWS] Consultando: ${url}`);
       const response = await axios.get(url, { timeout: 5000 });
       const articles = response.data.articles || [];
-      allArticles = allArticles.concat(articles);
-      if (!response.data.totalArticles || allArticles.length >= response.data.totalArticles || articles.length === 0) {
-        keepFetching = false;
-      } else {
-        page++;
-      }
+      gnewsNoticias = articles.map((article, idx) => ({
+        titulo: article.title,
+        descripcion: article.description,
+        fuente: article.source.name,
+        enlace: article.url,
+        imagen: article.image || null,
+        categoria: article.topic || '',
+        fecha: article.publishedAt || '',
+        destacada: idx < 3 // Las 3 primeras destacadas
+      }));
+    } catch (error) {
+      console.error('[GNEWS ERROR]', error.response ? error.response.data : error);
     }
-    const gnewsNoticias = allArticles.map((article, idx) => ({
-      titulo: article.title,
-      descripcion: article.description,
-      fuente: article.source.name,
-      enlace: article.url,
-      imagen: article.image || null,
-      categoria: article.topic || '',
-      fecha: article.publishedAt || '',
-      destacada: idx < 3 // Las 3 primeras destacadas
-    }));
     // NewsAPI
     const newsapiNoticias = await fetchNewsAPI({category, max: Math.min(20, max)});
     // Mediastack
     const mediastackNoticias = await fetchMediastack({category, max: Math.min(20, max)});
-    // Combinar y limitar
-    let noticias = [...gnewsNoticias, ...newsapiNoticias, ...mediastackNoticias];
+    // Combinar y limitar (prioridad: NewsAPI, Mediastack, luego GNews)
+    let noticias = [...newsapiNoticias, ...mediastackNoticias, ...gnewsNoticias];
     // Producto popular simulado como noticia-anuncio
     noticias.splice(1, 0, {
       titulo: '¡Producto Popular! Oferta especial',
