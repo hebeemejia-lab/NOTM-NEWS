@@ -1,4 +1,12 @@
+
 // NOTM NEWS - Frontend simple
+
+// Utilidad global para formatear fechas
+function formatDate(fecha) {
+  if (!fecha) return '';
+  const d = new Date(fecha);
+  return d.toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+}
 
 
 let featuredIndex = 0;
@@ -120,12 +128,6 @@ function renderOtherNews() {
       </div>
       <a href="${item.enlace}" target="_blank">Leer más</a>
     `;
-    // Formatear fecha/hora
-    function formatDate(fecha) {
-      if (!fecha) return '';
-      const d = new Date(fecha);
-      return d.toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
-    }
     list.appendChild(card);
   });
 }
