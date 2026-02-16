@@ -91,7 +91,9 @@ function renderFeaturedCarousel() {
   card.className = 'card featured big-featured' + (item.esAnuncio ? ' anuncio' : '');
   // Forzar HTTPS en la imagen
   let imagen = item.imagen;
-  if (imagen && imagen.startsWith('http://')) {
+  if (!imagen) {
+    imagen = './imagen/BE (18).png'; // Imagen por defecto
+  } else if (imagen.startsWith('http://')) {
     imagen = 'https://' + imagen.slice(7);
   }
   card.innerHTML = `
@@ -113,7 +115,9 @@ function renderOtherNews() {
   list.innerHTML = '';
   otherNews.forEach(item => {
     let imagen = item.imagen;
-    if (imagen && imagen.startsWith('http://')) {
+    if (!imagen) {
+      imagen = './imagen/BE (18).png'; // Imagen por defecto
+    } else if (imagen.startsWith('http://')) {
       imagen = 'https://' + imagen.slice(7);
     }
     const card = document.createElement('div');

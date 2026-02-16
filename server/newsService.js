@@ -82,9 +82,9 @@ async function getNews({category = 'general', max = 100} = {}) {
       console.error('[GNEWS ERROR]', error.response ? error.response.data : error);
     }
     // NewsAPI
-    const newsapiNoticias = await fetchNewsAPI({category, max: Math.min(20, max)});
+    const newsapiNoticias = await fetchNewsAPI({category, max: 30});
     // Mediastack
-    const mediastackNoticias = await fetchMediastack({category, max: Math.min(20, max)});
+    const mediastackNoticias = await fetchMediastack({category, max: 30});
     // Combinar y limitar (prioridad: NewsAPI, Mediastack, luego GNews)
     let noticias = [...newsapiNoticias, ...mediastackNoticias, ...gnewsNoticias];
     // Producto popular simulado como noticia-anuncio
@@ -97,7 +97,7 @@ async function getNews({category = 'general', max = 100} = {}) {
       destacada: true,
       esAnuncio: true
     });
-    return noticias.slice(0, max);
+    return noticias.slice(0, 60);
   } catch (error) {
     console.error('[GNEWS ERROR]', error.response ? error.response.data : error);
     // Fallback: solo NewsAPI
