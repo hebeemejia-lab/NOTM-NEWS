@@ -6,7 +6,7 @@ async function fetchMediastack({category = 'general', max = 20}) {
     url += `&categories=${category}`;
   }
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { timeout: 5000 });
     return (response.data.data || []).map((article, idx) => ({
       titulo: article.title,
       descripcion: article.description,
@@ -30,7 +30,7 @@ async function fetchNewsAPI({category = 'general', max = 20}) {
     url += `&category=${category}`;
   }
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url, { timeout: 5000 });
     return (response.data.articles || []).map((article, idx) => ({
       titulo: article.title,
       descripcion: article.description,
@@ -68,7 +68,7 @@ async function getNews({category = 'general', max = 100} = {}) {
     while (keepFetching && allArticles.length < max) {
       const url = buildGNewsUrl({category, page, max: Math.min(100, max - allArticles.length)});
       console.log(`[GNEWS] Consultando: ${url}`);
-      const response = await axios.get(url);
+      const response = await axios.get(url, { timeout: 5000 });
       const articles = response.data.articles || [];
       allArticles = allArticles.concat(articles);
       if (!response.data.totalArticles || allArticles.length >= response.data.totalArticles || articles.length === 0) {
